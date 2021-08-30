@@ -69,18 +69,22 @@ def handle_telegram(telegram_payload):
         return
     
     #instance = ec2.Instance(instance_id)
+    temp=""
     instancesIDs= []
     filters = [{'Name': 'instance-state-name','Values': ['*']}]
     instances_lists = ec2.instances.filter(Filters = filters)
     for instances in instances_lists:
         instancesIDs.append("/"+instances.id)
+        temp = instances
 
     #inst_names = [tag['Value'] for i in ec2.instances.all() for tag in i.tags if tag['Key'] == 'Name']
 
 
     # do what the user asks
     if message.text == "/info":
-        bot.sendMessage(message.chat.id, "Details  : %s" % str(instances.tags['Name']))
+        bot.sendMessage(message.chat.id, "Details  : %s" % str(temp.Name))
+    if message.text == "/info2":
+        bot.sendMessage(message.chat.id, "Details  : %s" % str(temp.tags['Name']))
     if message.text == "/up":
         start_instance(message, instance, user_code)
     if message.text == "/status":
