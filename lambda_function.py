@@ -72,16 +72,20 @@ def handle_telegram(telegram_payload):
     instancesIDs= []
     filters = [{'Name': 'instance-state-name','Values': ['*']}]
     instances_lists = ec2.instances.filter(Filters = filters)
-    for instance in instances_lists:
-        instancesIDs.append(instance.id)
+    for instances in instances_lists:
+        instancesIDs.append(instances.id)
         
     if message.text == "/list":
         confirm_buttons = ReplyKeyboardMarkup([instancesIDs])
         bot.sendMessage(message.chat.id, "Select Instance ID ... ", reply_markup=confirm_buttons)
+        
 
-    if message.text in instancesIDs:
+    if str(message.text).lower() in instancesIDs:
         instance = ec2.Instance(message.text)
         bot.sendMessage(message.chat.id, "Selected Instance  : "+instance)
+    else:
+        instance = ec2.Instance(instance_id)
+        bot.sendMessage(message.chat.id, "Selected Instance Not found, Defualt : " +instance + " your choice : "+message.text)
         
     # do what the user asks
     if message.text == "/up":
