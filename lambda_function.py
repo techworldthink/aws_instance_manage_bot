@@ -117,7 +117,7 @@ def handle_telegram(telegram_payload):
         bot.sendMessage(message.chat.id, "   --- INSTANCE --- \n\n  : %s" % str(inst_names))
         confirm_buttons = ReplyKeyboardMarkup([instancesIDs])
         bot.sendMessage(message.chat.id, "Select Instance ID", reply_markup=confirm_buttons)
-    elif str(message.text).lower()[:2] == "/i-":
+    elif str(message.text).lower()[:2] == "/i":
         bot.sendMessage(message.chat.id,"Message : "+str(message.text), reply_markup=ReplyKeyboardRemove())
         instance = ec2.Instance(instance_id)
         if str(message.text).lower() in instancesIDs:
