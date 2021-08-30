@@ -79,14 +79,7 @@ def handle_telegram(telegram_payload):
         confirm_buttons = ReplyKeyboardMarkup([instancesIDs])
         bot.sendMessage(message.chat.id, "Select Instance ID ... ", reply_markup=confirm_buttons)
         
-
-    if str(message.text).lower() in instancesIDs:
-        instance = ec2.Instance(message.text)
-        bot.sendMessage(message.chat.id, "Selected Instance  : "+instance)
-    else:
-        instance = ec2.Instance(instance_id)
-        bot.sendMessage(message.chat.id, "Selected Instance Not found, Defualt : " +instance + " your choice : "+message.text)
-        
+    
     # do what the user asks
     if message.text == "/up":
         start_instance(message, instance, user_code)
@@ -99,6 +92,12 @@ def handle_telegram(telegram_payload):
         stop_instance(message, instance)
     elif str(message.text).lower() == "cancel":
         bot.sendMessage(message.chat.id, "Canceled", reply_markup=ReplyKeyboardRemove())
+    elif str(message.text).lower() in instancesIDs:
+        bot.sendMessage(message.chat.id, "Selected Instance  : "+instance)
+        instance = ec2.Instance(message.text)
+    else:
+        bot.sendMessage(message.chat.id, "Selected Instance Not found, Defualt : " +instance + " your choice : "+message.text)
+        instance = ec2.Instance(instance_id)
 
 def handle_cron(cloudwatch_time):
     dt = datetime.strptime(cloudwatch_time, TIME_FORMAT)
