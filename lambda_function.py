@@ -74,11 +74,9 @@ def handle_telegram(telegram_payload):
     filters = [{'Name': 'instance-state-name','Values': ['*']}]
     instances_lists = ec2.instances.filter(Filters = filters)
     for instances in instances_lists:
-        instancesIDs.append(instances.id)
+        instancesIDs.append("/"+instances.id)
         
-    if message.text == "/list":
-        confirm_buttons = ReplyKeyboardMarkup([instancesIDs])
-        bot.sendMessage(message.chat.id, "Select Instance ID ... ", reply_markup=confirm_buttons)
+
         
     
     # do what the user asks
@@ -93,12 +91,18 @@ def handle_telegram(telegram_payload):
         stop_instance(message, instance)
     elif str(message.text).lower() == "cancel":
         bot.sendMessage(message.chat.id, "Canceled", reply_markup=ReplyKeyboardRemove())
-    elif str(message.text).lower() in instancesIDs:
-        instance = ec2.Instance(str(message.text))
-        bot.sendMessage(message.chat.id, "Selected Instance  : "+instance)
+    elif message.text == "/list":
+        confirm_buttons = ReplyKeyboardMarkup([instancesIDs])
+        bot.sendMessage(message.chat.id, "Select Instance ID ... ", reply_markup=confirm_buttons)
+    elif str(message.text).lower()[:2] == "/i":
+        if str(message.text).lower()[1:] in instancesIDs:
+            instance = ec2.Instance(str(message.text).lower()[1:])
+            bot.sendMessage(message.chat.id, "Selected Instance  : "+instance)
+        else:
+            instance = ec2.Instance(instance_id)
+            bot.sendMessage(message.chat.id, "Selected Instance Not found, Defualt : " + instance + " your choice : "+str(message.text).lower()[1:])
     else:
-        bot.sendMessage(message.chat.id, "Selected Instance Not found, Defualt : " +instance + " your choice : "+str(message.text))
-        instance = ec2.Instance(instance_id)
+        bot.sendMessage(message.chat.id, "Invalid Option!")
 
 def handle_cron(cloudwatch_time):
     dt = datetime.strptime(cloudwatch_time, TIME_FORMAT)
