@@ -75,8 +75,8 @@ def handle_telegram(telegram_payload):
         confirm_buttons = ReplyKeyboardMarkup([instancesIDs])
         bot.sendMessage(message.chat.id, "Are you sure?", reply_markup=confirm_buttons)
 
-     if message.text in instancesIDs:
-         instance = ec2.Instance(message.text)
+    if message.text in instancesIDs:
+        instance = ec2.Instance(message.text)
         
     # do what the user asks
     if message.text == "/up":
