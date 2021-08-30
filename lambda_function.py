@@ -96,13 +96,11 @@ def handle_telegram(telegram_payload):
     elif str(message.text).lower()[:2] == "/i":
         bot.sendMessage(message.chat.id,"Message : "+str(message.text), reply_markup=ReplyKeyboardRemove())
         instance = ec2.Instance(instance_id)
-        #bot.sendMessage(message.chat.id, "Defualt : " + instance + " your choice : "+str(message.text).lower()[1:])
         if str(message.text).lower() in instancesIDs:
             instance = ec2.Instance(str(message.text).lower()[1:])
-            bot.sendMessage(message.chat.id, "Selected Instance  : "+instance)
-        #else:
-        #    instance = ec2.Instance(instance_id)
-        #    bot.sendMessage(message.chat.id, "Selected Instance Not found, Defualt : " + instance + " your choice : "+str(message.text).lower()[1:])
+            bot.sendMessage(message.chat.id, "Selected Instance  : %s" % instance)
+        else:
+            bot.sendMessage(message.chat.id, "Selected Instance Not found ")
     else:
         bot.sendMessage(message.chat.id, "Invalid Option!")
 
