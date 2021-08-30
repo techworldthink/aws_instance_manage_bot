@@ -97,9 +97,9 @@ def handle_telegram(telegram_payload):
         bot.sendMessage(message.chat.id,"Message : "+str(message.text), reply_markup=ReplyKeyboardRemove())
         instance = ec2.Instance(instance_id)
         #bot.sendMessage(message.chat.id, "Defualt : " + instance + " your choice : "+str(message.text).lower()[1:])
-        #if str(message.text).lower()[1:] in instancesIDs:
-        #    instance = ec2.Instance(str(message.text).lower()[1:])
-        #    bot.sendMessage(message.chat.id, "Selected Instance  : "+instance)
+        if str(message.text).lower() in instancesIDs:
+            instance = ec2.Instance(str(message.text).lower()[1:])
+            bot.sendMessage(message.chat.id, "Selected Instance  : "+instance)
         #else:
         #    instance = ec2.Instance(instance_id)
         #    bot.sendMessage(message.chat.id, "Selected Instance Not found, Defualt : " + instance + " your choice : "+str(message.text).lower()[1:])
