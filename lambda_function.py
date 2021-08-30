@@ -49,7 +49,6 @@ def lambda_handler(event, context):
 def handle_telegram(telegram_payload):
 
     global instance
-    instance = ""
     
     update = Update.de_json(telegram_payload, bot)
     message = update.message
