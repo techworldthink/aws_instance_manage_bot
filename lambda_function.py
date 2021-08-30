@@ -76,9 +76,9 @@ def handle_telegram(telegram_payload):
         instancesIDs.append("/"+instances.id)
         
 
-        
-    
     # do what the user asks
+    if message.text == "/info":
+        bot.sendMessage(message.chat.id, "Details  : %s" % instances_lists)
     if message.text == "/up":
         start_instance(message, instance, user_code)
     if message.text == "/status":
