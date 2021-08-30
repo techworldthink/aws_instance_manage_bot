@@ -76,7 +76,14 @@ def handle_telegram(telegram_payload):
     for instances in instances_lists:
         instancesIDs.append("/"+instances.id)
 
-    inst_names = ["Name : "+tag['Value']+"\n ID : "+i.id+"\n\n" for i in instances_lists for tag in i.tags if tag['Key'] == 'Name']
+    inst_names = ""
+    for i in instances_lists:
+        for tag in i.tags:
+            if tag['Key'] == 'Name']:
+                inst_names = inst_names + "[ Name : "+tag['Value']+"\nID : "+i.id+" ]\n"
+            
+
+    #inst_names = ["[ Name : "+tag['Value']+" ] [ ID : "+i.id+" ]" for i in instances_lists for tag in i.tags if tag['Key'] == 'Name']
 
 
     # do what the user asks
