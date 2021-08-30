@@ -94,16 +94,16 @@ def handle_telegram(telegram_payload):
     elif message.text == "/list":
         confirm_buttons = ReplyKeyboardMarkup([instancesIDs])
         bot.sendMessage(message.chat.id, "Select Instance ID ... ", reply_markup=confirm_buttons)
-        bot.sendMessage(message.chat.id, "", reply_markup=ReplyKeyboardRemove())
     elif str(message.text).lower()[:2] == "/i":
-        instance = ec2.Instance(instance_id)
-        bot.sendMessage(message.chat.id, "Defualt : " + instance + " your choice : "+str(message.text).lower()[1:])
-        if str(message.text).lower()[1:] in instancesIDs:
-            instance = ec2.Instance(str(message.text).lower()[1:])
-            bot.sendMessage(message.chat.id, "Selected Instance  : "+instance)
-        else:
-            instance = ec2.Instance(instance_id)
-            bot.sendMessage(message.chat.id, "Selected Instance Not found, Defualt : " + instance + " your choice : "+str(message.text).lower()[1:])
+        bot.sendMessage(message.chat.id,"Message : "+str(message.text))
+        #instance = ec2.Instance(instance_id)
+        #bot.sendMessage(message.chat.id, "Defualt : " + instance + " your choice : "+str(message.text).lower()[1:])
+        #if str(message.text).lower()[1:] in instancesIDs:
+        #    instance = ec2.Instance(str(message.text).lower()[1:])
+        #    bot.sendMessage(message.chat.id, "Selected Instance  : "+instance)
+        #else:
+        #    instance = ec2.Instance(instance_id)
+        #    bot.sendMessage(message.chat.id, "Selected Instance Not found, Defualt : " + instance + " your choice : "+str(message.text).lower()[1:])
     else:
         bot.sendMessage(message.chat.id, "Invalid Option!")
 
