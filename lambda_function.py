@@ -20,6 +20,7 @@ if LOG_LEVEL:
 bot = Bot(token=os.getenv('TELEGRAM_TOKEN'))
 ec2 = boto3.resource('ec2')
 
+instance = ""
 
 def lambda_handler(event, context):
     # read event
@@ -46,6 +47,9 @@ def lambda_handler(event, context):
     return {"statusCode": 200, "headers": {}, "body": ""}
 
 def handle_telegram(telegram_payload):
+
+    global instance
+    
     update = Update.de_json(telegram_payload, bot)
     message = update.message
     if not message:
@@ -64,7 +68,7 @@ def handle_telegram(telegram_payload):
         bot.sendMessage(message.chat.id, "This is a private bot to start/stop AWS EC2 instances. Check out the documentation:\nhttps://itpp.dev/ops/remote-dev/aws/index.html")
         return
     
-    instance = ec2.Instance(instance_id)
+    #instance = ec2.Instance(instance_id)
     instancesIDs= []
     filters = [{'Name': 'instance-state-name','Values': ['*']}]
     instances_lists = ec2.instances.filter(Filters = filters)
@@ -73,10 +77,11 @@ def handle_telegram(telegram_payload):
         
     if message.text == "/list":
         confirm_buttons = ReplyKeyboardMarkup([instancesIDs])
-        bot.sendMessage(message.chat.id, "Are you sure?", reply_markup=confirm_buttons)
+        bot.sendMessage(message.chat.id, "Select Instance ID ... ", reply_markup=confirm_buttons)
 
     if message.text in instancesIDs:
         instance = ec2.Instance(message.text)
+        bot.sendMessage(message.chat.id, "Selected Instance  : "+instance)
         
     # do what the user asks
     if message.text == "/up":
