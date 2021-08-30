@@ -1,4 +1,4 @@
 # aws_instance_manage_bot
 
 ## How to Configure ?
-### https://techworldthink.github.io/ESP32-Project/pages/aws_bot.html
+### https://techworldthink.github.io/Tech-Guides/pages/aws_bot.html
