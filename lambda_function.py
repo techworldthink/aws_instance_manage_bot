@@ -82,9 +82,9 @@ def handle_telegram(telegram_payload):
 
     # do what the user asks
     if message.text == "/info":
-        bot.sendMessage(message.chat.id, "Details  : %s" % str(temp.Name))
+        bot.sendMessage(message.chat.id, "Details  : %s" % str(temp.id))
     if message.text == "/info2":
-        bot.sendMessage(message.chat.id, "Details  : %s" % str(temp.tags['Name']))
+        bot.sendMessage(message.chat.id, "Details  : %s" % str(temp.tags))
     if message.text == "/up":
         start_instance(message, instance, user_code)
     if message.text == "/status":
