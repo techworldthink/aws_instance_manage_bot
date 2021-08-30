@@ -49,6 +49,7 @@ def lambda_handler(event, context):
 def handle_telegram(telegram_payload):
 
     global instance
+    instance = ""
     
     update = Update.de_json(telegram_payload, bot)
     message = update.message
@@ -93,10 +94,10 @@ def handle_telegram(telegram_payload):
     elif str(message.text).lower() == "cancel":
         bot.sendMessage(message.chat.id, "Canceled", reply_markup=ReplyKeyboardRemove())
     elif str(message.text).lower() in instancesIDs:
+        instance = ec2.Instance(str(message.text))
         bot.sendMessage(message.chat.id, "Selected Instance  : "+instance)
-        instance = ec2.Instance(message.text)
     else:
-        bot.sendMessage(message.chat.id, "Selected Instance Not found, Defualt : " +instance + " your choice : "+message.text)
+        bot.sendMessage(message.chat.id, "Selected Instance Not found, Defualt : " +instance + " your choice : "+str(message.text))
         instance = ec2.Instance(instance_id)
 
 def handle_cron(cloudwatch_time):
