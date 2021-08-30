@@ -80,7 +80,7 @@ def handle_telegram(telegram_payload):
     for i in instances_lists:
         for tag in i.tags:
             if tag['Key'] == 'Name':
-                inst_names = inst_names + "[ Name : "+tag['Value']+"\nID : "+i.id+" ]\n"
+                inst_names = inst_names + "Name : "+tag['Value']+"\nID : "+i.id+"\nState  :"+i.state['Name']+"\n\n"
             
 
     #inst_names = ["[ Name : "+tag['Value']+" ] [ ID : "+i.id+" ]" for i in instances_lists for tag in i.tags if tag['Key'] == 'Name']
@@ -88,7 +88,7 @@ def handle_telegram(telegram_payload):
 
     # do what the user asks
     if message.text == "/info":
-        bot.sendMessage(message.chat.id, "Details  : %s" % str(inst_names))
+        bot.sendMessage(message.chat.id, " --- INSTANCE --- \n\n  : %s" % str(inst_names))
     if message.text == "/up":
         start_instance(message, instance, user_code)
     if message.text == "/status":
@@ -101,9 +101,10 @@ def handle_telegram(telegram_payload):
     elif str(message.text).lower() == "cancel":
         bot.sendMessage(message.chat.id, "Canceled", reply_markup=ReplyKeyboardRemove())
     elif message.text == "/list":
+        bot.sendMessage(message.chat.id, " --- INSTANCE --- \n\n  : %s" % str(inst_names))
         confirm_buttons = ReplyKeyboardMarkup([instancesIDs])
-        bot.sendMessage(message.chat.id, "Select Instance ID ... ", reply_markup=confirm_buttons)
-    elif str(message.text).lower()[:2] == "/i":
+        bot.sendMessage(message.chat.id, "Select Instance ID", reply_markup=confirm_buttons)
+    elif str(message.text).lower()[:2] == "/i-":
         bot.sendMessage(message.chat.id,"Message : "+str(message.text), reply_markup=ReplyKeyboardRemove())
         instance = ec2.Instance(instance_id)
         if str(message.text).lower() in instancesIDs:
