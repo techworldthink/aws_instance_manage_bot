@@ -87,21 +87,34 @@ def handle_telegram(telegram_payload):
 
 
     # do what the user asks
-    if message.text == "/info":
-        bot.sendMessage(message.chat.id, " --- INSTANCE --- \n\n  : %s" % str(inst_names))
+    #if message.text == "/info":
+    #    bot.sendMessage(message.chat.id, " --- INSTANCE --- \n\n  : %s" % str(inst_names))
+    #    return
     if message.text == "/up":
+        if instance == "":
+            bot.sendMessage(message.chat.id, "First Select an Instance : /list")
+            return
         start_instance(message, instance, user_code)
     if message.text == "/status":
+        if instance == "":
+            bot.sendMessage(message.chat.id, "First Select an Instance : /list")
+            return
         send_status(message, instance, user_code)
     elif message.text == "/shutdown":
+        if instance == "":
+            bot.sendMessage(message.chat.id, "First Select an Instance : /list")
+            return
         confirm_buttons = ReplyKeyboardMarkup([["Shutdown", "Cancel"]])
         bot.sendMessage(message.chat.id, "Are you sure?", reply_markup=confirm_buttons)
     elif str(message.text).lower() == "shutdown":
+        if instance == "":
+            bot.sendMessage(message.chat.id, "First Select an Instance : /list")
+            return
         stop_instance(message, instance)
     elif str(message.text).lower() == "cancel":
         bot.sendMessage(message.chat.id, "Canceled", reply_markup=ReplyKeyboardRemove())
     elif message.text == "/list":
-        bot.sendMessage(message.chat.id, " --- INSTANCE --- \n\n  : %s" % str(inst_names))
+        bot.sendMessage(message.chat.id, "   --- INSTANCE --- \n\n  : %s" % str(inst_names))
         confirm_buttons = ReplyKeyboardMarkup([instancesIDs])
         bot.sendMessage(message.chat.id, "Select Instance ID", reply_markup=confirm_buttons)
     elif str(message.text).lower()[:2] == "/i-":
