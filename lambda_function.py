@@ -118,11 +118,11 @@ def handle_telegram(telegram_payload):
         confirm_buttons = ReplyKeyboardMarkup([instancesIDs])
         bot.sendMessage(message.chat.id, "Select Instance ID", reply_markup=confirm_buttons)
     elif str(message.text).lower()[:2] == "/i":
-        bot.sendMessage(message.chat.id,"Message : "+str(message.text), reply_markup=ReplyKeyboardRemove())
+        #bot.sendMessage(message.chat.id,"Message : "+str(message.text), reply_markup=ReplyKeyboardRemove())
         instance = ec2.Instance(instance_id)
         if str(message.text).lower() in instancesIDs:
             instance = ec2.Instance(str(message.text).lower()[1:])
-            bot.sendMessage(message.chat.id, "Selected Instance  : %s" % instance)
+            bot.sendMessage(message.chat.id, "Selected Instance  : %s" % str(message.text))
         else:
             bot.sendMessage(message.chat.id, "Selected Instance Not found ")
     else:
